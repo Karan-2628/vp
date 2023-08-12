@@ -13,7 +13,7 @@ pipeline{
 	  NEXUSIP = '172.31.95.117'
 	  NEXUSPORT = '8081'
 	  NEXUS_GRP_REPO = 'vpro-maven-group'
-	  NEXUS_LOGIN = 'nexuslogin'
+	  NEXUS_LOGIN = '4ddc38e4-f5f0-4d68-81e4-d02b4064c310'
 	  SONARSERVER = 'Sonarserver'
 	  SONARSCANNER = 'Sonarscanner'
   }
@@ -39,6 +39,25 @@ pipeline{
 			  sh 'mvn -s settings.xml checkstyle:checkstyle'
 		  }
 	  }
+	  stage('Upload Arti'){
+		steps {
+			    nexusArtifactUploader(
+        			nexusVersion: 'nexus3',
+        			protocol: 'http',
+        			nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+       				 groupId: 'QA',
+        			version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+        			repository: "${RELEASE_REPO}",
+       				 credentialsId: "${NEXUS_LOGIN}",
+        			artifacts: [
+           			 [artifactId: 'vproapp',
+           			 classifier: '',
+             			file: 'target/vprofile-v2.war',
+             			type: 'war']
+        ]
+     )
+		}
+		}
 	  stage('Sonar Analysis'){
 		  environment {
 			  scannerHome = tool "${SONARSCANNER}"
