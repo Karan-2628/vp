@@ -81,7 +81,7 @@ pipeline{
 	  stage("Build image") {
 		  steps {
 			  script {
-				  dockerImage = docker.build( appRegistry +":$BUILD_NUMBER", "./Dockerfile" )
+				  dockerImage = docker.build( appRegistry +":$BUILD_NUMBER", "./Docker-files/Dockerfile")
 			  }
 		  }
 	  }
