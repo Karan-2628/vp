@@ -1,8 +1,7 @@
 FROM openjdk:11 AS BUILD_IMAGE
 RUN apt update
 RUN git clone -b vp-docker https://github.com/devopshydclub/vprofile-project.git
-RUN cd vprofile-project
-RUN mvn install
+RUN cd vprofile-project && mvn install
 
 FROM tomcat:9-jre11
 
