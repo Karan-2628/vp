@@ -1,6 +1,6 @@
 FROM openjdk:11 AS BUILD_IMAGE
 RUN apt update
-RUN apt-get install maven -y
+RUN apt-get install -y maven
 RUN git clone -b vp-docker https://github.com/devopshydclub/vprofile-project.git
 RUN cd vprofile-project && mvn install
 
